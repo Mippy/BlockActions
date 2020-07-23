@@ -1,0 +1,11 @@
+name: BlockActions
+version: ${project.version}
+main: dev.sabel.i.blockactions.BlockActions
+api-version: 1.13
+website: https://i.sabel.dev
+author: i@sabel.dev
+description: Make blocks run a certain command instead of its regular action, or disable them entirely!
+commands:
+  blockactions:
+    aliases: [ba, blockaction]
+    description: BlockActions Base Command
