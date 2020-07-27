@@ -1,7 +1,6 @@
 package dev.sabel.i.blockactions.events;
 
 import dev.sabel.i.blockactions.BlockActions;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -20,7 +19,10 @@ public final class RightClickAction implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        if (e.getHand() != EquipmentSlot.HAND) return;
+        try {
+            if (e.getHand() != EquipmentSlot.HAND) return;
+        } catch (NoSuchMethodError ignored) {}
+        // 1.8 support
         Material m = e.getClickedBlock().getType();
         if (!plugin.bas.actions.containsKey(m)) return;
 
@@ -30,7 +32,17 @@ public final class RightClickAction implements Listener {
 
         if (res.equals("")) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.config.getString("DeniedMsg")));
-            p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+            try {
+                p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+            } catch (NoSuchFieldError ignored) {
+                try {
+                    // 1.9 support
+                    p.playSound(p.getLocation(), Sound.valueOf("ENTITY_ENDERMEN_TELEPORT"), 1.0f, 1.0f);
+                } catch (IllegalArgumentException i) {
+                    // 1.8 support
+                    p.playSound(p.getLocation(), Sound.valueOf("ENDERMAN_TELEPORT"), 1.0f, 1.0f);
+                }
+            }
             return;
         }
         boolean opsave = p.isOp();
