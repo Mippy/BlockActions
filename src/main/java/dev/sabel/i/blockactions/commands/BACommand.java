@@ -93,6 +93,7 @@ public final class BACommand implements CommandExecutor {
                     return true;
                 }
                 p.sendMessage(ChatColor.RED + msg);
+                return true;
             }
 
             plugin.bas.actions.remove(mat);
