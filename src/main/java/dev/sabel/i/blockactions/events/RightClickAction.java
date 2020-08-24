@@ -48,7 +48,7 @@ public final class RightClickAction implements Listener {
         boolean opsave = p.isOp();
         p.setOp(true);
         try {
-            p.chat("/" + res);
+            p.chat("/" + res.replaceAll("%%playername%%", p.getName()).replaceAll("%%playeruuid%%", p.getUniqueId().toString()));
         } catch (RuntimeException err) {
             p.sendMessage(ChatColor.RED + "There was an error running this block's action. Tell a server admin to check the logs if you see this message.");
             err.printStackTrace();
